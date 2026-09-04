@@ -64,7 +64,7 @@
 
     .top-card,
     .card {
-      background: rgba(255, 255, 255, 0.91);
+      background: rgba(255, 255, 255, 0.92);
       border: 1px solid rgba(217, 226, 239, 0.95);
       border-radius: 28px;
       box-shadow: var(--shadow);
@@ -147,12 +147,12 @@
     }
 
     .tabs-card {
-      background: rgba(255, 255, 255, 0.7);
+      background: rgba(255, 255, 255, 0.72);
       border: 1px solid rgba(217, 226, 239, 0.95);
       border-radius: 24px;
       padding: 10px;
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 10px;
       margin-bottom: 16px;
     }
@@ -172,7 +172,7 @@
     }
 
     .tab-button:hover {
-      background: rgba(255, 255, 255, 0.8);
+      background: rgba(255, 255, 255, 0.82);
     }
 
     .tab-button[aria-selected="true"] {
@@ -240,18 +240,37 @@
       align-items: start;
     }
 
+    .calendar-layout {
+      display: grid;
+      grid-template-columns: minmax(300px, 0.72fr) minmax(0, 1.18fr);
+      gap: 18px;
+      align-items: start;
+    }
+
+    .day-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(280px, 0.75fr);
+      gap: 18px;
+      align-items: start;
+    }
+
     .task-list-panel,
     .form-panel,
-    .agenda-panel {
+    .agenda-panel,
+    .calendar-box,
+    .day-hero {
       background: #f8fbff;
       border: 1px solid var(--border);
       border-radius: 22px;
       padding: 16px;
+      min-width: 0;
     }
 
     .task-list-panel h3,
     .form-panel h3,
-    .agenda-panel h3 {
+    .agenda-panel h3,
+    .calendar-box h3,
+    .day-hero h3 {
       margin: 0 0 12px;
       font-size: 1.15rem;
       letter-spacing: -0.02em;
@@ -473,19 +492,6 @@
       font-size: 1.05rem;
     }
 
-    .calendar-layout {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr);
-      gap: 18px;
-    }
-
-    .calendar-main-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.72fr);
-      gap: 18px;
-      align-items: start;
-    }
-
     .calendar-top {
       display: flex;
       align-items: center;
@@ -506,14 +512,6 @@
       gap: 8px;
       flex-wrap: wrap;
       justify-content: flex-end;
-    }
-
-    .calendar-box {
-      background: #f8fbff;
-      border: 1px solid var(--border);
-      border-radius: 22px;
-      padding: 16px;
-      min-width: 0;
     }
 
     .weekdays,
@@ -610,13 +608,6 @@
       color: var(--green);
     }
 
-    .agenda-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      margin-top: 0;
-    }
-
     .small-list {
       display: grid;
       gap: 10px;
@@ -645,6 +636,78 @@
       margin-top: 4px;
     }
 
+    .day-hero {
+      background:
+        linear-gradient(135deg, rgba(79, 99, 246, 0.12), rgba(23, 138, 81, 0.10)),
+        #fff;
+    }
+
+    .big-date {
+      margin: 4px 0 6px;
+      font-size: clamp(1.7rem, 4vw, 2.8rem);
+      line-height: 1.05;
+      letter-spacing: -0.04em;
+    }
+
+    .day-schedule {
+      display: grid;
+      gap: 12px;
+    }
+
+    .selected-day-box {
+      margin-top: 18px;
+      padding-top: 18px;
+      border-top: 1px solid var(--border);
+    }
+
+    .selected-day-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .selected-day-header .pill {
+      margin-bottom: 8px;
+    }
+
+
+    .schedule-item {
+      display: grid;
+      grid-template-columns: 110px minmax(0, 1fr) 44px;
+      gap: 12px;
+      align-items: center;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 14px;
+      min-width: 0;
+    }
+
+    .schedule-time {
+      min-height: 58px;
+      border-radius: 18px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      font-weight: 900;
+      background: var(--accent-soft);
+      color: var(--accent-dark);
+      padding: 8px;
+    }
+
+    .schedule-main {
+      min-width: 0;
+    }
+
+    .schedule-title {
+      margin: 0 0 6px;
+      font-size: 1.08rem;
+      font-weight: 900;
+      overflow-wrap: anywhere;
+    }
+
     .footer-note {
       margin-top: 14px;
       color: var(--muted);
@@ -655,13 +718,13 @@
     @media (max-width: 950px) {
       .top-card,
       .tasks-layout,
-      .calendar-main-grid,
-      .agenda-grid {
+      .calendar-layout,
+      .day-layout {
         grid-template-columns: 1fr;
       }
 
       .stats-strip {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-columns: repeat(2, minmax(0, 1fr));
       }
     }
 
@@ -673,24 +736,18 @@
       .top-card,
       .card {
         border-radius: 22px;
-      }
-
-      .top-card,
-      .card {
         padding: 18px;
       }
 
       .stats-strip,
-      .row {
-        grid-template-columns: 1fr;
-      }
-
+      .row,
       .tabs-card {
         grid-template-columns: 1fr;
       }
 
       .section-header,
-      .calendar-top {
+      .calendar-top,
+      .selected-day-header {
         flex-direction: column;
         align-items: stretch;
       }
@@ -723,6 +780,15 @@
         font-size: 0.64rem;
         padding: 2px 5px;
       }
+
+      .schedule-item {
+        grid-template-columns: 1fr 44px;
+      }
+
+      .schedule-time {
+        grid-column: 1 / -1;
+        min-height: 48px;
+      }
     }
 
     @media (max-width: 420px) {
@@ -750,7 +816,7 @@
       <section aria-labelledby="appTitle">
         <span class="pill">✨ Friendly school planner</span>
         <h1 id="appTitle">My To-Do List and Calendar</h1>
-        <p class="intro-text">Use the tabs below to switch between your tasks and your calendar. Tasks stay first, so you can see what needs to be done right away.</p>
+        <p class="intro-text">Tasks stay first. Use the Calendar tab to add classes and exams. Click any date to see that day's schedule right inside the calendar.</p>
       </section>
 
       <aside class="stats-strip" aria-label="Planner summary">
@@ -797,7 +863,7 @@
           <div class="section-header">
             <div>
               <h2 id="tasksHeading">Tasks</h2>
-              <p>Your tasks are at the top now. Check one off when it is done and it disappears.</p>
+              <p>Your tasks are at the top. Check one off when it is done and it disappears.</p>
             </div>
             <p class="tiny-note">Saved on this device</p>
           </div>
@@ -845,7 +911,7 @@
           <div class="section-header">
             <div>
               <h2 id="calendarHeading">Calendar</h2>
-              <p>Add classes, exams, and study reminders here. Your task list stays separate in the Tasks tab.</p>
+              <p>Add classes, exams, and study reminders. Click any date to see that day's classes and times below the calendar.</p>
             </div>
             <p class="tiny-note">Saved on this device</p>
           </div>
@@ -888,42 +954,40 @@
               <p class="message" id="eventMessage" role="alert"></p>
             </form>
 
-            <div class="calendar-main-grid">
-              <section class="calendar-box" aria-label="Monthly calendar">
-                <div class="calendar-top">
-                  <button class="ghost-btn" type="button" id="previousMonth">Previous</button>
-                  <h3 class="calendar-title" id="monthLabel">Month Year</h3>
-                  <div class="calendar-actions">
-                    <button class="secondary-btn" type="button" id="todayButton">Today</button>
-                    <button class="ghost-btn" type="button" id="nextMonth">Next</button>
-                  </div>
+            <section class="calendar-box" aria-label="Monthly calendar">
+              <div class="calendar-top">
+                <button class="ghost-btn" type="button" id="previousMonth">Previous</button>
+                <h3 class="calendar-title" id="monthLabel">Month Year</h3>
+                <div class="calendar-actions">
+                  <button class="secondary-btn" type="button" id="todayButton">Today</button>
+                  <button class="ghost-btn" type="button" id="nextMonth">Next</button>
                 </div>
-
-                <div class="weekdays" aria-hidden="true">
-                  <div class="weekday">Sun</div>
-                  <div class="weekday">Mon</div>
-                  <div class="weekday">Tue</div>
-                  <div class="weekday">Wed</div>
-                  <div class="weekday">Thu</div>
-                  <div class="weekday">Fri</div>
-                  <div class="weekday">Sat</div>
-                </div>
-                <div class="calendar-days" id="calendarDays" aria-label="Calendar days"></div>
-              </section>
-
-              <div class="agenda-grid">
-                <section class="agenda-panel" aria-labelledby="selectedDayHeading">
-                  <h3 id="selectedDayHeading">Selected day</h3>
-                  <p class="tiny-note" id="selectedDateLabel"></p>
-                  <div class="small-list" id="selectedDayEvents"></div>
-                </section>
-
-                <section class="agenda-panel" aria-labelledby="upcomingHeading">
-                  <h3 id="upcomingHeading">Coming up</h3>
-                  <div class="small-list" id="upcomingEvents"></div>
-                </section>
               </div>
-            </div>
+
+              <div class="weekdays" aria-hidden="true">
+                <div class="weekday">Sun</div>
+                <div class="weekday">Mon</div>
+                <div class="weekday">Tue</div>
+                <div class="weekday">Wed</div>
+                <div class="weekday">Thu</div>
+                <div class="weekday">Fri</div>
+                <div class="weekday">Sat</div>
+              </div>
+              <div class="calendar-days" id="calendarDays" aria-label="Calendar days"></div>
+
+              <section class="selected-day-box" id="selectedDayBox" aria-labelledby="selectedDateBigLabel">
+                <div class="selected-day-header">
+                  <div>
+                    <span class="pill">🗓️ Selected date</span>
+                    <h3 class="big-date" id="selectedDateBigLabel">Selected date</h3>
+                    <p class="tiny-note" id="selectedDateSummary">0 events scheduled.</p>
+                  </div>
+                  <button class="secondary-btn" type="button" id="addOnSelectedDate">Add to this date</button>
+                </div>
+                <h3 id="dayScheduleHeading">Classes and times</h3>
+                <div class="day-schedule" id="selectedDayEvents" aria-live="polite"></div>
+              </section>
+            </section>
           </div>
         </section>
       </section>
@@ -937,6 +1001,7 @@
     const EVENTS_KEY = "friendlyPlannerEvents";
     const DONE_KEY = "friendlyPlannerDoneCounts";
     const ACTIVE_TAB_KEY = "friendlyPlannerActiveTab";
+    const SELECTED_DATE_KEY = "friendlyPlannerSelectedDate";
     const OLD_TASKS_KEY = "myTodoListTasks";
     const OLD_EVENTS_KEY = "myCalendarEvents";
 
@@ -961,9 +1026,10 @@
     const previousMonth = document.getElementById("previousMonth");
     const nextMonth = document.getElementById("nextMonth");
     const todayButton = document.getElementById("todayButton");
-    const selectedDateLabel = document.getElementById("selectedDateLabel");
     const selectedDayEvents = document.getElementById("selectedDayEvents");
-    const upcomingEvents = document.getElementById("upcomingEvents");
+    const selectedDateBigLabel = document.getElementById("selectedDateBigLabel");
+    const selectedDateSummary = document.getElementById("selectedDateSummary");
+    const addOnSelectedDate = document.getElementById("addOnSelectedDate");
 
     const tasksLeftStat = document.getElementById("tasksLeftStat");
     const todayEventsStat = document.getElementById("todayEventsStat");
@@ -979,15 +1045,12 @@
       tasks: readTasks(),
       events: readEvents(),
       doneCounts: readObject(DONE_KEY),
-      activeTab: localStorage.getItem(ACTIVE_TAB_KEY) || "tasks",
-      selectedDate: toDateString(today),
+      // Always start on Tasks so the to-do list stays first.
+      activeTab: "tasks",
+      selectedDate: localStorage.getItem(SELECTED_DATE_KEY) || toDateString(today),
       calendarYear: today.getFullYear(),
       calendarMonth: today.getMonth()
     };
-
-    if (state.activeTab !== "tasks" && state.activeTab !== "calendar") {
-      state.activeTab = "tasks";
-    }
 
     eventDate.value = state.selectedDate;
 
@@ -1046,6 +1109,7 @@
       localStorage.setItem(EVENTS_KEY, JSON.stringify(state.events));
       localStorage.setItem(DONE_KEY, JSON.stringify(state.doneCounts));
       localStorage.setItem(ACTIVE_TAB_KEY, state.activeTab);
+      localStorage.setItem(SELECTED_DATE_KEY, state.selectedDate);
     }
 
     function createId() {
@@ -1064,14 +1128,14 @@
     }
 
     function fromDateString(dateString) {
-      const parts = dateString.split("-").map(Number);
+      const parts = String(dateString).split("-").map(Number);
       return new Date(parts[0], parts[1] - 1, parts[2]);
     }
 
     function formatDate(dateString) {
       return fromDateString(dateString).toLocaleDateString(undefined, {
-        weekday: "short",
-        month: "short",
+        weekday: "long",
+        month: "long",
         day: "numeric",
         year: "numeric"
       });
@@ -1137,7 +1201,17 @@
       });
     }
 
+    function eventsForSelectedDate() {
+      return sortEvents(state.events.filter(function (event) {
+        return event.date === state.selectedDate;
+      }));
+    }
+
     function switchTab(tabName) {
+      if (tabName !== "tasks" && tabName !== "calendar") {
+        tabName = "tasks";
+      }
+
       state.activeTab = tabName;
       tasksPanel.hidden = tabName !== "tasks";
       calendarPanel.hidden = tabName !== "calendar";
@@ -1148,6 +1222,20 @@
       });
 
       saveAll();
+    }
+
+    function selectCalendarDate(dateString) {
+      // Click a date in the Calendar tab to update the selected-day schedule below the calendar.
+      state.selectedDate = dateString;
+      eventDate.value = dateString;
+      const selected = fromDateString(dateString);
+      state.calendarYear = selected.getFullYear();
+      state.calendarMonth = selected.getMonth();
+      renderAll("calendar");
+      const selectedBox = document.getElementById("selectedDayBox");
+      if (selectedBox) {
+        selectedBox.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      }
     }
 
     function renderTasks() {
@@ -1234,7 +1322,7 @@
         button.type = "button";
         button.className = "day-cell";
         button.dataset.date = dateString;
-        button.setAttribute("aria-label", formatDate(dateString) + " with " + eventsForDay.length + " events");
+        button.setAttribute("aria-label", "Select " + formatDate(dateString) + " with " + eventsForDay.length + " events");
 
         if (dateString === toDateString(new Date())) button.classList.add("is-today");
         if (dateString === state.selectedDate) button.classList.add("is-selected");
@@ -1250,7 +1338,7 @@
         eventsForDay.slice(0, 2).forEach(function (event) {
           const mini = document.createElement("span");
           mini.className = "mini-event " + event.type;
-          mini.textContent = typeLabel(event.type);
+          mini.textContent = formatTime(event.time) + " " + typeLabel(event.type);
           miniList.appendChild(mini);
         });
 
@@ -1266,31 +1354,66 @@
       }
     }
 
-    function createEventCard(event, compact) {
+    function createScheduleItem(event) {
       const wrapper = document.createElement("div");
-      wrapper.className = compact ? "compact-event" : "event-item";
+      wrapper.className = "schedule-item";
+
+      const time = document.createElement("div");
+      time.className = "schedule-time";
+      time.textContent = formatTime(event.time);
 
       const main = document.createElement("div");
-      main.className = compact ? "" : "event-main";
+      main.className = "schedule-main";
 
+      const title = document.createElement("p");
+      title.className = "schedule-title";
+      title.textContent = typeIcon(event.type) + " " + event.name;
+
+      const meta = document.createElement("div");
+      meta.className = "meta-line";
+
+      const type = document.createElement("span");
+      type.className = "tag " + event.type;
+      type.textContent = typeLabel(event.type);
+      meta.appendChild(type);
+
+      if (event.note) {
+        const note = document.createElement("span");
+        note.className = "tag";
+        note.textContent = event.note;
+        meta.appendChild(note);
+      }
+
+      main.appendChild(title);
+      main.appendChild(meta);
+
+      const deleteButton = document.createElement("button");
+      deleteButton.type = "button";
+      deleteButton.className = "icon-btn";
+      deleteButton.dataset.deleteEvent = event.id;
+      deleteButton.setAttribute("aria-label", "Delete " + event.name);
+      deleteButton.textContent = "×";
+
+      wrapper.appendChild(time);
+      wrapper.appendChild(main);
+      wrapper.appendChild(deleteButton);
+      return wrapper;
+    }
+
+    function createCompactEvent(event) {
+      const wrapper = document.createElement("div");
+      wrapper.className = "compact-event";
+
+      const main = document.createElement("div");
       const title = document.createElement("strong");
-      title.className = compact ? "" : "event-title";
       title.textContent = typeIcon(event.type) + " " + event.name;
 
       const details = document.createElement("small");
       const noteText = event.note ? " • " + event.note : "";
       details.textContent = formatShortDate(event.date) + " • " + formatTime(event.time) + noteText;
 
-      const meta = document.createElement("div");
-      meta.className = "meta-line";
-      const tag = document.createElement("span");
-      tag.className = "tag " + event.type;
-      tag.textContent = typeLabel(event.type);
-      meta.appendChild(tag);
-
       main.appendChild(title);
       main.appendChild(details);
-      if (!compact) main.appendChild(meta);
 
       const deleteButton = document.createElement("button");
       deleteButton.type = "button";
@@ -1304,41 +1427,23 @@
       return wrapper;
     }
 
-    function renderAgenda() {
-      selectedDateLabel.textContent = formatDate(state.selectedDate);
+    function renderDayView() {
+      const selectedEvents = eventsForSelectedDate();
+      selectedDateBigLabel.textContent = formatDate(state.selectedDate);
+      selectedDateSummary.textContent = selectedEvents.length === 1 ? "1 event scheduled." : selectedEvents.length + " events scheduled.";
       selectedDayEvents.innerHTML = "";
-      upcomingEvents.innerHTML = "";
-
-      const selectedEvents = sortEvents(state.events.filter(function (event) {
-        return event.date === state.selectedDate;
-      }));
 
       if (selectedEvents.length === 0) {
         const empty = document.createElement("div");
         empty.className = "empty-state";
-        empty.innerHTML = "<strong>Nothing scheduled.</strong>This day is open.";
+        empty.innerHTML = "<strong>Nothing scheduled.</strong>This day is open. Use the form to add a class, exam, or reminder.";
         selectedDayEvents.appendChild(empty);
-      } else {
-        selectedEvents.forEach(function (event) {
-          selectedDayEvents.appendChild(createEventCard(event, true));
-        });
+        return;
       }
 
-      const todayString = toDateString(new Date());
-      const upcoming = sortEvents(state.events.filter(function (event) {
-        return event.date >= todayString;
-      })).slice(0, 5);
-
-      if (upcoming.length === 0) {
-        const empty = document.createElement("div");
-        empty.className = "empty-state";
-        empty.innerHTML = "<strong>No upcoming events.</strong>Add a class or exam above.";
-        upcomingEvents.appendChild(empty);
-      } else {
-        upcoming.forEach(function (event) {
-          upcomingEvents.appendChild(createEventCard(event, true));
-        });
-      }
+      selectedEvents.forEach(function (event) {
+        selectedDayEvents.appendChild(createScheduleItem(event));
+      });
     }
 
     function renderStats() {
@@ -1346,7 +1451,6 @@
       const todayEvents = state.events.filter(function (event) {
         return event.date === todayString;
       }).length;
-
       tasksLeftStat.textContent = state.tasks.length;
       todayEventsStat.textContent = todayEvents;
       doneTodayStat.textContent = state.doneCounts[todayString] || 0;
@@ -1354,10 +1458,11 @@
       calendarTabCount.textContent = todayEvents;
     }
 
-    function renderAll() {
+    function renderAll(nextTab) {
+      if (nextTab) state.activeTab = nextTab;
       renderTasks();
       renderCalendar();
-      renderAgenda();
+      renderDayView();
       renderStats();
       switchTab(state.activeTab);
     }
@@ -1389,7 +1494,7 @@
       taskDueDate.value = "";
       taskPriority.value = "medium";
       taskInput.focus();
-      renderAll();
+      renderAll("tasks");
     });
 
     taskList.addEventListener("change", function (event) {
@@ -1407,7 +1512,7 @@
           return task.id !== id;
         });
         saveAll();
-        renderAll();
+        renderAll("tasks");
       }, 180);
     });
 
@@ -1419,7 +1524,7 @@
         return task.id !== button.dataset.deleteTask;
       });
       saveAll();
-      renderAll();
+      renderAll("tasks");
     });
 
     eventForm.addEventListener("submit", function (event) {
@@ -1456,15 +1561,13 @@
       eventTime.value = "";
       eventNote.value = "";
       eventName.focus();
-      renderAll();
+      renderAll("calendar");
     });
 
     calendarDays.addEventListener("click", function (event) {
       const button = event.target.closest("[data-date]");
       if (!button) return;
-      state.selectedDate = button.dataset.date;
-      eventDate.value = state.selectedDate;
-      renderAll();
+      selectCalendarDate(button.dataset.date);
     });
 
     document.addEventListener("click", function (event) {
@@ -1484,7 +1587,7 @@
         state.calendarMonth = 11;
         state.calendarYear -= 1;
       }
-      renderAll();
+      renderAll("calendar");
     });
 
     nextMonth.addEventListener("click", function () {
@@ -1493,7 +1596,7 @@
         state.calendarMonth = 0;
         state.calendarYear += 1;
       }
-      renderAll();
+      renderAll("calendar");
     });
 
     todayButton.addEventListener("click", function () {
@@ -1502,7 +1605,17 @@
       state.calendarYear = now.getFullYear();
       state.calendarMonth = now.getMonth();
       eventDate.value = state.selectedDate;
-      renderAll();
+      renderAll("calendar");
+    });
+
+
+    addOnSelectedDate.addEventListener("click", function () {
+      // Set the form to the selected day.
+      eventDate.value = state.selectedDate;
+      renderAll("calendar");
+      window.setTimeout(function () {
+        eventName.focus();
+      }, 50);
     });
 
     renderAll();
