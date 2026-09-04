@@ -41,7 +41,7 @@
         var(--bg);
       color: var(--ink);
       min-height: 100vh;
-      padding: 24px;
+      padding: 20px;
       overflow-x: hidden;
     }
 
@@ -58,29 +58,25 @@
 
     .page {
       width: 100%;
-      max-width: 1180px;
+      max-width: 1120px;
       margin: 0 auto;
     }
 
-    .hero {
-      display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
-      gap: 20px;
-      align-items: stretch;
-      margin-bottom: 22px;
-    }
-
-    .hero-text,
-    .hero-stats,
+    .top-card,
     .card {
-      background: rgba(255, 255, 255, 0.88);
-      border: 1px solid rgba(217, 226, 239, 0.9);
+      background: rgba(255, 255, 255, 0.91);
+      border: 1px solid rgba(217, 226, 239, 0.95);
       border-radius: 28px;
       box-shadow: var(--shadow);
     }
 
-    .hero-text {
-      padding: 28px;
+    .top-card {
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(260px, 0.7fr);
+      gap: 18px;
+      align-items: center;
+      padding: 24px;
+      margin-bottom: 16px;
     }
 
     .pill {
@@ -91,37 +87,35 @@
       border-radius: 999px;
       background: var(--accent-soft);
       color: var(--accent-dark);
-      font-weight: 800;
+      font-weight: 900;
       font-size: 0.9rem;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
 
     h1 {
-      font-size: clamp(2.2rem, 5vw, 4rem);
+      font-size: clamp(2rem, 5vw, 3.65rem);
       line-height: 1;
-      margin: 0 0 12px;
-      letter-spacing: -0.05em;
+      margin: 0 0 10px;
+      letter-spacing: -0.055em;
     }
 
-    .hero-text p {
+    .intro-text {
       margin: 0;
       color: var(--muted);
-      font-size: 1.12rem;
+      font-size: 1.08rem;
       line-height: 1.55;
-      max-width: 780px;
+      max-width: 760px;
     }
 
-    .hero-stats {
-      padding: 18px;
+    .stats-strip {
       display: grid;
-      grid-template-columns: 1fr;
-      gap: 12px;
+      gap: 10px;
     }
 
     .stat {
       border: 1px solid var(--border);
-      border-radius: 22px;
-      padding: 16px;
+      border-radius: 20px;
+      padding: 14px;
       background: #fff;
       display: flex;
       align-items: center;
@@ -132,35 +126,85 @@
 
     .stat strong {
       display: block;
-      font-size: 1.75rem;
+      font-size: 1.55rem;
       line-height: 1;
     }
 
     .stat span {
       color: var(--muted);
-      font-size: 0.95rem;
+      font-size: 0.92rem;
     }
 
     .stat-icon {
-      width: 46px;
-      height: 46px;
+      width: 44px;
+      height: 44px;
       border-radius: 16px;
       display: grid;
       place-items: center;
       background: var(--accent-soft);
-      font-size: 1.35rem;
+      font-size: 1.25rem;
       flex: 0 0 auto;
     }
 
-    .main-grid {
+    .tabs-card {
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px solid rgba(217, 226, 239, 0.95);
+      border-radius: 24px;
+      padding: 10px;
       display: grid;
-      grid-template-columns: minmax(320px, 0.9fr) minmax(480px, 1.35fr);
-      gap: 22px;
-      align-items: start;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .tab-button {
+      min-height: 58px;
+      border: 0;
+      border-radius: 18px;
+      background: transparent;
+      color: var(--muted);
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: background 130ms ease, color 130ms ease, transform 130ms ease;
+    }
+
+    .tab-button:hover {
+      background: rgba(255, 255, 255, 0.8);
+    }
+
+    .tab-button[aria-selected="true"] {
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 10px 22px rgba(79, 99, 246, 0.25);
+    }
+
+    .tab-button[aria-selected="true"] .tab-count {
+      background: rgba(255, 255, 255, 0.24);
+      color: #fff;
+    }
+
+    .tab-count {
+      min-width: 30px;
+      min-height: 30px;
+      border-radius: 999px;
+      display: inline-grid;
+      place-items: center;
+      background: #fff;
+      color: var(--accent-dark);
+      padding: 0 8px;
+      font-size: 0.88rem;
+    }
+
+    .tab-panel[hidden] {
+      display: none;
     }
 
     .card {
       padding: 24px;
+      margin-bottom: 18px;
     }
 
     .section-header {
@@ -173,8 +217,8 @@
 
     .section-header h2 {
       margin: 0 0 6px;
-      font-size: 1.65rem;
-      letter-spacing: -0.03em;
+      font-size: 1.75rem;
+      letter-spacing: -0.035em;
     }
 
     .section-header p {
@@ -185,21 +229,37 @@
 
     .tiny-note {
       color: var(--muted);
-      font-size: 0.88rem;
+      font-size: 0.9rem;
       line-height: 1.35;
     }
 
-    .form-panel {
+    .tasks-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.75fr);
+      gap: 18px;
+      align-items: start;
+    }
+
+    .task-list-panel,
+    .form-panel,
+    .agenda-panel {
       background: #f8fbff;
       border: 1px solid var(--border);
       border-radius: 22px;
       padding: 16px;
-      margin-bottom: 18px;
+    }
+
+    .task-list-panel h3,
+    .form-panel h3,
+    .agenda-panel h3 {
+      margin: 0 0 12px;
+      font-size: 1.15rem;
+      letter-spacing: -0.02em;
     }
 
     label {
       display: block;
-      font-weight: 800;
+      font-weight: 900;
       margin-bottom: 8px;
     }
 
@@ -287,7 +347,7 @@
       border-radius: 14px;
       background: var(--red-soft);
       color: var(--red);
-      font-weight: 800;
+      font-weight: 900;
       font-size: 0.94rem;
     }
 
@@ -323,8 +383,8 @@
     }
 
     .task-checkbox {
-      width: 30px;
-      height: 30px;
+      width: 32px;
+      height: 32px;
       flex: 0 0 auto;
       accent-color: var(--green);
     }
@@ -339,7 +399,7 @@
     .event-title {
       display: block;
       font-weight: 900;
-      font-size: 1.05rem;
+      font-size: 1.06rem;
       overflow-wrap: anywhere;
     }
 
@@ -358,7 +418,7 @@
       gap: 6px;
       border-radius: 999px;
       padding: 5px 9px;
-      font-weight: 800;
+      font-weight: 900;
       background: #eef2f7;
       color: var(--muted);
     }
@@ -403,7 +463,7 @@
       padding: 22px;
       text-align: center;
       color: var(--muted);
-      background: rgba(255, 255, 255, 0.6);
+      background: rgba(255, 255, 255, 0.72);
     }
 
     .empty-state strong {
@@ -413,12 +473,25 @@
       font-size: 1.05rem;
     }
 
+    .calendar-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 18px;
+    }
+
+    .calendar-main-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.72fr);
+      gap: 18px;
+      align-items: start;
+    }
+
     .calendar-top {
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 10px;
-      margin: 18px 0 10px;
+      margin: 4px 0 14px;
     }
 
     .calendar-title {
@@ -433,6 +506,14 @@
       gap: 8px;
       flex-wrap: wrap;
       justify-content: flex-end;
+    }
+
+    .calendar-box {
+      background: #f8fbff;
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 16px;
+      min-width: 0;
     }
 
     .weekdays,
@@ -455,7 +536,7 @@
 
     .day-cell,
     .blank-cell {
-      min-height: 94px;
+      min-height: 90px;
       border-radius: 18px;
     }
 
@@ -533,20 +614,7 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 16px;
-      margin-top: 18px;
-    }
-
-    .agenda-panel {
-      border: 1px solid var(--border);
-      border-radius: 22px;
-      padding: 16px;
-      background: #fff;
-      min-width: 0;
-    }
-
-    .agenda-panel h3 {
-      margin: 0 0 12px;
-      font-size: 1.1rem;
+      margin-top: 0;
     }
 
     .small-list {
@@ -557,7 +625,7 @@
     .compact-event {
       border-radius: 16px;
       padding: 12px;
-      background: #f8fbff;
+      background: #fff;
       border: 1px solid var(--border);
       display: flex;
       justify-content: space-between;
@@ -578,20 +646,21 @@
     }
 
     .footer-note {
-      margin-top: 18px;
+      margin-top: 14px;
       color: var(--muted);
       font-size: 0.92rem;
       text-align: center;
     }
 
-    @media (max-width: 980px) {
-      .hero,
-      .main-grid,
+    @media (max-width: 950px) {
+      .top-card,
+      .tasks-layout,
+      .calendar-main-grid,
       .agenda-grid {
         grid-template-columns: 1fr;
       }
 
-      .hero-stats {
+      .stats-strip {
         grid-template-columns: repeat(3, minmax(0, 1fr));
       }
     }
@@ -601,19 +670,22 @@
         padding: 14px;
       }
 
-      .hero-text,
-      .hero-stats,
+      .top-card,
       .card {
         border-radius: 22px;
       }
 
-      .hero-text,
+      .top-card,
       .card {
         padding: 18px;
       }
 
-      .hero-stats,
+      .stats-strip,
       .row {
+        grid-template-columns: 1fr;
+      }
+
+      .tabs-card {
         grid-template-columns: 1fr;
       }
 
@@ -674,14 +746,14 @@
 </head>
 <body>
   <div class="page">
-    <header class="hero">
-      <section class="hero-text" aria-labelledby="appTitle">
+    <header class="top-card">
+      <section aria-labelledby="appTitle">
         <span class="pill">✨ Friendly school planner</span>
         <h1 id="appTitle">My To-Do List and Calendar</h1>
-        <p>Add tasks, classes, exams, study reminders, and due dates in one clean place. Check off a task when you are done and it disappears so the screen stays calm.</p>
+        <p class="intro-text">Use the tabs below to switch between your tasks and your calendar. Tasks stay first, so you can see what needs to be done right away.</p>
       </section>
 
-      <aside class="hero-stats" aria-label="Planner summary">
+      <aside class="stats-strip" aria-label="Planner summary">
         <div class="stat">
           <div>
             <strong id="tasksLeftStat">0</strong>
@@ -706,124 +778,154 @@
       </aside>
     </header>
 
-    <main class="main-grid">
-      <section class="card" aria-labelledby="tasksHeading">
-        <div class="section-header">
-          <div>
-            <h2 id="tasksHeading">Tasks</h2>
-            <p>Quickly add homework, chores, projects, or anything you need to remember.</p>
-          </div>
-        </div>
+    <nav class="tabs-card" aria-label="Planner tabs">
+      <button class="tab-button" type="button" id="tasksTab" role="tab" aria-selected="true" aria-controls="tasksPanel" data-tab="tasks">
+        <span aria-hidden="true">✅</span>
+        Tasks
+        <span class="tab-count" id="taskTabCount">0</span>
+      </button>
+      <button class="tab-button" type="button" id="calendarTab" role="tab" aria-selected="false" aria-controls="calendarPanel" data-tab="calendar">
+        <span aria-hidden="true">📅</span>
+        Calendar
+        <span class="tab-count" id="calendarTabCount">0</span>
+      </button>
+    </nav>
 
-        <form class="form-panel" id="taskForm">
-          <div class="field">
-            <label for="taskInput">Task name</label>
-            <input id="taskInput" type="text" placeholder="Example: Finish math homework" autocomplete="off" />
-          </div>
-
-          <div class="row">
-            <div class="field">
-              <label for="taskDueDate">Due date <span class="tiny-note">(optional)</span></label>
-              <input id="taskDueDate" type="date" />
+    <main>
+      <section class="tab-panel" id="tasksPanel" role="tabpanel" aria-labelledby="tasksTab">
+        <section class="card" aria-labelledby="tasksHeading">
+          <div class="section-header">
+            <div>
+              <h2 id="tasksHeading">Tasks</h2>
+              <p>Your tasks are at the top now. Check one off when it is done and it disappears.</p>
             </div>
-            <div class="field">
-              <label for="taskPriority">Priority</label>
-              <select id="taskPriority">
-                <option value="low">Low</option>
-                <option value="medium" selected>Medium</option>
-                <option value="high">High</option>
-              </select>
-            </div>
+            <p class="tiny-note">Saved on this device</p>
           </div>
 
-          <button class="primary-btn" type="submit">Add Task</button>
-          <p class="message" id="taskMessage" role="alert"></p>
-        </form>
+          <div class="tasks-layout">
+            <section class="task-list-panel" aria-labelledby="currentTasksHeading">
+              <h3 id="currentTasksHeading">Current tasks</h3>
+              <ul class="task-list" id="taskList" aria-live="polite"></ul>
+              <div class="empty-state" id="emptyTasks">
+                <strong>No tasks yet.</strong>
+                Add one using the form beside or below this list.
+              </div>
+            </section>
 
-        <ul class="task-list" id="taskList" aria-live="polite"></ul>
-        <div class="empty-state" id="emptyTasks">
-          <strong>No tasks yet.</strong>
-          Add one above and it will show up here.
-        </div>
+            <form class="form-panel" id="taskForm">
+              <h3>Add a new task</h3>
+              <div class="field">
+                <label for="taskInput">Task name</label>
+                <input id="taskInput" type="text" placeholder="Example: Finish math homework" autocomplete="off" />
+              </div>
+
+              <div class="field">
+                <label for="taskDueDate">Due date <span class="tiny-note">(optional)</span></label>
+                <input id="taskDueDate" type="date" />
+              </div>
+
+              <div class="field">
+                <label for="taskPriority">Priority</label>
+                <select id="taskPriority">
+                  <option value="low">Low</option>
+                  <option value="medium" selected>Medium</option>
+                  <option value="high">High</option>
+                </select>
+              </div>
+
+              <button class="primary-btn" type="submit">Add Task</button>
+              <p class="message" id="taskMessage" role="alert"></p>
+            </form>
+          </div>
+        </section>
       </section>
 
-      <section class="card" aria-labelledby="calendarHeading">
-        <div class="section-header">
-          <div>
-            <h2 id="calendarHeading">Calendar</h2>
-            <p>Add classes and exams, then click a day to see what is happening.</p>
-          </div>
-          <p class="tiny-note">Saved on this device</p>
-        </div>
-
-        <form class="form-panel" id="eventForm">
-          <div class="field">
-            <label for="eventName">Class, exam, or reminder name</label>
-            <input id="eventName" type="text" placeholder="Example: Science exam" autocomplete="off" />
-          </div>
-
-          <div class="row">
-            <div class="field">
-              <label for="eventType">Type</label>
-              <select id="eventType">
-                <option value="class">Class</option>
-                <option value="exam">Exam</option>
-                <option value="study">Study reminder</option>
-              </select>
+      <section class="tab-panel" id="calendarPanel" role="tabpanel" aria-labelledby="calendarTab" hidden>
+        <section class="card" aria-labelledby="calendarHeading">
+          <div class="section-header">
+            <div>
+              <h2 id="calendarHeading">Calendar</h2>
+              <p>Add classes, exams, and study reminders here. Your task list stays separate in the Tasks tab.</p>
             </div>
-            <div class="field">
-              <label for="eventTime">Time <span class="tiny-note">(optional)</span></label>
-              <input id="eventTime" type="time" />
-            </div>
+            <p class="tiny-note">Saved on this device</p>
           </div>
 
-          <div class="row">
-            <div class="field">
-              <label for="eventDate">Date</label>
-              <input id="eventDate" type="date" required />
-            </div>
-            <div class="field">
-              <label for="eventNote">Room or note <span class="tiny-note">(optional)</span></label>
-              <input id="eventNote" type="text" placeholder="Example: Room 204" autocomplete="off" />
+          <div class="calendar-layout">
+            <form class="form-panel" id="eventForm">
+              <h3>Add to calendar</h3>
+              <div class="field">
+                <label for="eventName">Class, exam, or reminder name</label>
+                <input id="eventName" type="text" placeholder="Example: Science exam" autocomplete="off" />
+              </div>
+
+              <div class="row">
+                <div class="field">
+                  <label for="eventType">Type</label>
+                  <select id="eventType">
+                    <option value="class">Class</option>
+                    <option value="exam">Exam</option>
+                    <option value="study">Study reminder</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="eventTime">Time <span class="tiny-note">(optional)</span></label>
+                  <input id="eventTime" type="time" />
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="field">
+                  <label for="eventDate">Date</label>
+                  <input id="eventDate" type="date" required />
+                </div>
+                <div class="field">
+                  <label for="eventNote">Room or note <span class="tiny-note">(optional)</span></label>
+                  <input id="eventNote" type="text" placeholder="Example: Room 204" autocomplete="off" />
+                </div>
+              </div>
+
+              <button class="primary-btn" type="submit">Add to Calendar</button>
+              <p class="message" id="eventMessage" role="alert"></p>
+            </form>
+
+            <div class="calendar-main-grid">
+              <section class="calendar-box" aria-label="Monthly calendar">
+                <div class="calendar-top">
+                  <button class="ghost-btn" type="button" id="previousMonth">Previous</button>
+                  <h3 class="calendar-title" id="monthLabel">Month Year</h3>
+                  <div class="calendar-actions">
+                    <button class="secondary-btn" type="button" id="todayButton">Today</button>
+                    <button class="ghost-btn" type="button" id="nextMonth">Next</button>
+                  </div>
+                </div>
+
+                <div class="weekdays" aria-hidden="true">
+                  <div class="weekday">Sun</div>
+                  <div class="weekday">Mon</div>
+                  <div class="weekday">Tue</div>
+                  <div class="weekday">Wed</div>
+                  <div class="weekday">Thu</div>
+                  <div class="weekday">Fri</div>
+                  <div class="weekday">Sat</div>
+                </div>
+                <div class="calendar-days" id="calendarDays" aria-label="Calendar days"></div>
+              </section>
+
+              <div class="agenda-grid">
+                <section class="agenda-panel" aria-labelledby="selectedDayHeading">
+                  <h3 id="selectedDayHeading">Selected day</h3>
+                  <p class="tiny-note" id="selectedDateLabel"></p>
+                  <div class="small-list" id="selectedDayEvents"></div>
+                </section>
+
+                <section class="agenda-panel" aria-labelledby="upcomingHeading">
+                  <h3 id="upcomingHeading">Coming up</h3>
+                  <div class="small-list" id="upcomingEvents"></div>
+                </section>
+              </div>
             </div>
           </div>
-
-          <button class="primary-btn" type="submit">Add to Calendar</button>
-          <p class="message" id="eventMessage" role="alert"></p>
-        </form>
-
-        <div class="calendar-top">
-          <button class="ghost-btn" type="button" id="previousMonth">Previous</button>
-          <h3 class="calendar-title" id="monthLabel">Month Year</h3>
-          <div class="calendar-actions">
-            <button class="secondary-btn" type="button" id="todayButton">Today</button>
-            <button class="ghost-btn" type="button" id="nextMonth">Next</button>
-          </div>
-        </div>
-
-        <div class="weekdays" aria-hidden="true">
-          <div class="weekday">Sun</div>
-          <div class="weekday">Mon</div>
-          <div class="weekday">Tue</div>
-          <div class="weekday">Wed</div>
-          <div class="weekday">Thu</div>
-          <div class="weekday">Fri</div>
-          <div class="weekday">Sat</div>
-        </div>
-        <div class="calendar-days" id="calendarDays" aria-label="Calendar days"></div>
-
-        <div class="agenda-grid">
-          <section class="agenda-panel" aria-labelledby="selectedDayHeading">
-            <h3 id="selectedDayHeading">Selected day</h3>
-            <p class="tiny-note" id="selectedDateLabel"></p>
-            <div class="small-list" id="selectedDayEvents"></div>
-          </section>
-
-          <section class="agenda-panel" aria-labelledby="upcomingHeading">
-            <h3 id="upcomingHeading">Coming up</h3>
-            <div class="small-list" id="upcomingEvents"></div>
-          </section>
-        </div>
+        </section>
       </section>
     </main>
 
@@ -834,6 +936,7 @@
     const TASKS_KEY = "friendlyPlannerTasks";
     const EVENTS_KEY = "friendlyPlannerEvents";
     const DONE_KEY = "friendlyPlannerDoneCounts";
+    const ACTIVE_TAB_KEY = "friendlyPlannerActiveTab";
     const OLD_TASKS_KEY = "myTodoListTasks";
     const OLD_EVENTS_KEY = "myCalendarEvents";
 
@@ -865,16 +968,26 @@
     const tasksLeftStat = document.getElementById("tasksLeftStat");
     const todayEventsStat = document.getElementById("todayEventsStat");
     const doneTodayStat = document.getElementById("doneTodayStat");
+    const taskTabCount = document.getElementById("taskTabCount");
+    const calendarTabCount = document.getElementById("calendarTabCount");
+    const tabButtons = document.querySelectorAll("[data-tab]");
+    const tasksPanel = document.getElementById("tasksPanel");
+    const calendarPanel = document.getElementById("calendarPanel");
 
     const today = new Date();
     let state = {
       tasks: readTasks(),
       events: readEvents(),
       doneCounts: readObject(DONE_KEY),
+      activeTab: localStorage.getItem(ACTIVE_TAB_KEY) || "tasks",
       selectedDate: toDateString(today),
       calendarYear: today.getFullYear(),
       calendarMonth: today.getMonth()
     };
+
+    if (state.activeTab !== "tasks" && state.activeTab !== "calendar") {
+      state.activeTab = "tasks";
+    }
 
     eventDate.value = state.selectedDate;
 
@@ -891,7 +1004,6 @@
       const currentTasks = readArray(TASKS_KEY);
       if (currentTasks.length > 0) return currentTasks;
 
-      // Bring in tasks from the earlier version of the app, if they exist.
       return readArray(OLD_TASKS_KEY).map(function (task) {
         return {
           id: task.id || createId(),
@@ -906,7 +1018,6 @@
       const currentEvents = readArray(EVENTS_KEY);
       if (currentEvents.length > 0) return currentEvents;
 
-      // Bring in classes and exams from the earlier calendar version, if they exist.
       return readArray(OLD_EVENTS_KEY).map(function (event) {
         return {
           id: event.id || createId(),
@@ -934,6 +1045,7 @@
       localStorage.setItem(TASKS_KEY, JSON.stringify(state.tasks));
       localStorage.setItem(EVENTS_KEY, JSON.stringify(state.events));
       localStorage.setItem(DONE_KEY, JSON.stringify(state.doneCounts));
+      localStorage.setItem(ACTIVE_TAB_KEY, state.activeTab);
     }
 
     function createId() {
@@ -1023,6 +1135,19 @@
         if (dateCompare !== 0) return dateCompare;
         return (a.time || "99:99").localeCompare(b.time || "99:99");
       });
+    }
+
+    function switchTab(tabName) {
+      state.activeTab = tabName;
+      tasksPanel.hidden = tabName !== "tasks";
+      calendarPanel.hidden = tabName !== "calendar";
+
+      tabButtons.forEach(function (button) {
+        const selected = button.dataset.tab === tabName;
+        button.setAttribute("aria-selected", selected ? "true" : "false");
+      });
+
+      saveAll();
     }
 
     function renderTasks() {
@@ -1218,11 +1343,15 @@
 
     function renderStats() {
       const todayString = toDateString(new Date());
-      tasksLeftStat.textContent = state.tasks.length;
-      todayEventsStat.textContent = state.events.filter(function (event) {
+      const todayEvents = state.events.filter(function (event) {
         return event.date === todayString;
       }).length;
+
+      tasksLeftStat.textContent = state.tasks.length;
+      todayEventsStat.textContent = todayEvents;
       doneTodayStat.textContent = state.doneCounts[todayString] || 0;
+      taskTabCount.textContent = state.tasks.length;
+      calendarTabCount.textContent = todayEvents;
     }
 
     function renderAll() {
@@ -1230,7 +1359,14 @@
       renderCalendar();
       renderAgenda();
       renderStats();
+      switchTab(state.activeTab);
     }
+
+    tabButtons.forEach(function (button) {
+      button.addEventListener("click", function () {
+        switchTab(button.dataset.tab);
+      });
+    });
 
     taskForm.addEventListener("submit", function (event) {
       event.preventDefault();
