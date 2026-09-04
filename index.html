@@ -3,198 +3,580 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My To-Do List</title>
+  <title>My To-Do List and Calendar</title>
 
   <style>
-    /* Basic page styling */
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       font-family: Arial, sans-serif;
       background: #f3f7fb;
       color: #1f2937;
       min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
       padding: 24px;
+      overflow-x: hidden;
     }
 
-    /* Main app box */
-    .app {
+    .page {
       width: 100%;
-      max-width: 600px;
-      background: white;
-      border-radius: 20px;
-      padding: 28px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .app-header {
+      text-align: center;
+      margin-bottom: 24px;
     }
 
     h1 {
-      text-align: center;
-      font-size: 2.2rem;
-      margin: 0 0 10px;
+      font-size: 2.3rem;
+      margin: 0 0 8px;
     }
 
     .subtitle {
-      text-align: center;
       font-size: 1.1rem;
       color: #4b5563;
-      margin-bottom: 24px;
+      margin: 0;
     }
 
-    /* Input and button row */
-    .task-form {
-      display: flex;
-      gap: 12px;
-      margin-bottom: 24px;
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+      gap: 24px;
+      align-items: start;
     }
 
-    input[type="text"] {
-      flex: 1;
-      font-size: 1.1rem;
-      padding: 16px;
+    .card {
+      background: white;
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    h2 {
+      margin: 0 0 14px;
+      font-size: 1.5rem;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    input,
+    select,
+    button {
+      font: inherit;
+    }
+
+    input[type="text"],
+    input[type="date"],
+    input[type="time"],
+    select {
+      width: 100%;
+      font-size: 1rem;
+      padding: 14px;
       border: 2px solid #d1d5db;
       border-radius: 14px;
       outline: none;
+      background: white;
     }
 
-    input[type="text"]:focus {
-      border-color: #2563eb;
+    input:focus,
+    select:focus,
+    button:focus {
+      outline: 3px solid #93c5fd;
+      outline-offset: 2px;
+    }
+
+    .task-form,
+    .event-form {
+      display: grid;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .task-form-row {
+      display: flex;
+      gap: 12px;
+    }
+
+    .event-form-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 12px;
     }
 
     button {
-      font-size: 1.1rem;
-      font-weight: bold;
-      padding: 16px 22px;
+      min-height: 48px;
       border: none;
       border-radius: 14px;
       background: #2563eb;
       color: white;
+      font-weight: bold;
+      padding: 14px 18px;
       cursor: pointer;
+      white-space: nowrap;
     }
 
     button:hover {
       background: #1d4ed8;
     }
 
-    /* Task list */
+    .small-button {
+      min-height: 40px;
+      padding: 10px 12px;
+      font-size: 0.95rem;
+    }
+
+    .secondary-button {
+      background: #e5e7eb;
+      color: #1f2937;
+    }
+
+    .secondary-button:hover {
+      background: #d1d5db;
+    }
+
+    .delete-button {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .delete-button:hover {
+      background: #fecaca;
+    }
+
     ul {
       list-style: none;
       padding: 0;
       margin: 0;
     }
 
-    li {
+    .task-item,
+    .event-item {
       display: flex;
       align-items: center;
       gap: 14px;
       background: #eef6ff;
       border: 2px solid #dbeafe;
-      padding: 16px;
+      padding: 14px;
       border-radius: 14px;
       margin-bottom: 12px;
-      font-size: 1.15rem;
+      font-size: 1.05rem;
     }
 
     .task-checkbox {
-      width: 28px;
-      height: 28px;
+      width: 30px;
+      height: 30px;
       cursor: pointer;
       flex-shrink: 0;
     }
 
-    .empty-message {
-      text-align: center;
-      color: #6b7280;
-      font-size: 1.1rem;
-      padding: 16px;
+    .task-text,
+    .event-text {
+      min-width: 0;
+      overflow-wrap: anywhere;
+      flex: 1;
     }
 
-    /* Makes the app easier to use on phones */
+    .empty-message,
+    .helper-message {
+      color: #6b7280;
+      font-size: 1rem;
+      padding: 12px 0;
+      margin: 0;
+    }
+
+    .calendar-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .month-title {
+      font-size: 1.35rem;
+      font-weight: bold;
+      text-align: center;
+      min-width: 0;
+    }
+
+    .calendar-buttons {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 6px;
+      margin-bottom: 18px;
+    }
+
+    .day-name {
+      text-align: center;
+      font-weight: bold;
+      color: #4b5563;
+      font-size: 0.9rem;
+      padding: 6px 0;
+    }
+
+    .day-cell {
+      min-height: 68px;
+      border: 2px solid #e5e7eb;
+      border-radius: 12px;
+      background: #ffffff;
+      color: #1f2937;
+      padding: 8px;
+      cursor: pointer;
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .day-cell:hover {
+      border-color: #93c5fd;
+      background: #f8fbff;
+    }
+
+    .day-cell.selected {
+      border-color: #2563eb;
+      background: #dbeafe;
+    }
+
+    .day-cell.today {
+      box-shadow: inset 0 0 0 2px #f59e0b;
+    }
+
+    .day-number {
+      font-weight: bold;
+    }
+
+    .day-events {
+      display: flex;
+      gap: 4px;
+      flex-wrap: wrap;
+      font-size: 0.75rem;
+    }
+
+    .event-dot {
+      border-radius: 999px;
+      padding: 2px 6px;
+      font-weight: bold;
+    }
+
+    .class-dot {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .exam-dot {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .selected-date-box,
+    .upcoming-box {
+      border-top: 2px solid #e5e7eb;
+      padding-top: 16px;
+      margin-top: 16px;
+    }
+
+    .section-title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .section-title-row h3 {
+      margin: 0;
+      font-size: 1.15rem;
+    }
+
+    .badge {
+      display: inline-block;
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 0.85rem;
+      font-weight: bold;
+      margin-right: 8px;
+    }
+
+    .class-badge {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .exam-badge {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .event-details {
+      display: block;
+      color: #4b5563;
+      font-size: 0.95rem;
+      margin-top: 4px;
+    }
+
+    .status-message {
+      min-height: 24px;
+      color: #991b1b;
+      font-weight: bold;
+      margin: 0 0 12px;
+    }
+
+    @media (max-width: 850px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
     @media (max-width: 520px) {
-      .app {
-        padding: 20px;
+      body {
+        padding: 12px;
+      }
+
+      .card {
+        padding: 18px;
       }
 
       h1 {
         font-size: 1.8rem;
       }
 
-      .task-form {
+      .task-form-row,
+      .event-form-row,
+      .calendar-top {
         flex-direction: column;
+        display: flex;
       }
 
-      button,
-      input[type="text"] {
+      .task-form-row button,
+      .calendar-top button {
         width: 100%;
-        box-sizing: border-box;
+      }
+
+      .calendar-grid {
+        gap: 4px;
+      }
+
+      .day-cell {
+        min-height: 58px;
+        padding: 6px;
+        font-size: 0.9rem;
+      }
+
+      .event-dot {
+        font-size: 0.65rem;
+        padding: 1px 5px;
       }
     }
   </style>
 </head>
 <body>
-  <main class="app">
-    <h1>My To-Do List</h1>
-    <p class="subtitle">Add a task. Check it off when you are done.</p>
+  <main class="page">
+    <header class="app-header">
+      <h1>My To-Do List and Calendar</h1>
+      <p class="subtitle">Add tasks, classes, and exams in one simple place.</p>
+    </header>
 
-    <form class="task-form" id="taskForm">
-      <input
-        id="taskInput"
-        type="text"
-        placeholder="Type a task here..."
-        aria-label="Type a task"
-      />
-      <button type="submit">Add Task</button>
-    </form>
+    <div class="layout">
+      <section class="card" aria-labelledby="todoTitle">
+        <h2 id="todoTitle">To-Do List</h2>
+        <p class="helper-message">Type a task. Check it off when you finish it.</p>
 
-    <ul id="taskList"></ul>
-    <p class="empty-message" id="emptyMessage">No tasks yet. Add one above!</p>
+        <form class="task-form" id="taskForm">
+          <div class="task-form-row">
+            <input
+              id="taskInput"
+              type="text"
+              placeholder="Type a task here..."
+              aria-label="Type a task"
+            />
+            <button type="submit">Add Task</button>
+          </div>
+        </form>
+
+        <ul id="taskList"></ul>
+        <p class="empty-message" id="emptyTaskMessage">No tasks yet. Add one above!</p>
+      </section>
+
+      <section class="card" aria-labelledby="calendarTitle">
+        <h2 id="calendarTitle">Class and Exam Calendar</h2>
+        <p class="helper-message">Add a class or exam, then click a date to see what is happening that day.</p>
+        <p class="status-message" id="eventStatus" aria-live="polite"></p>
+
+        <form class="event-form" id="eventForm">
+          <div>
+            <label for="eventTitle">Class or exam name</label>
+            <input
+              id="eventTitle"
+              type="text"
+              placeholder="Example: Math test"
+              aria-label="Class or exam name"
+            />
+          </div>
+
+          <div class="event-form-row">
+            <div>
+              <label for="eventType">Type</label>
+              <select id="eventType" aria-label="Choose class or exam">
+                <option value="class">Class</option>
+                <option value="exam">Exam</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="eventTime">Time</label>
+              <input id="eventTime" type="time" aria-label="Event time" />
+            </div>
+          </div>
+
+          <div>
+            <label for="eventDate">Date</label>
+            <input id="eventDate" type="date" aria-label="Event date" />
+          </div>
+
+          <button type="submit">Add to Calendar</button>
+        </form>
+
+        <div class="calendar-top">
+          <button type="button" class="secondary-button small-button" id="prevMonth">Previous</button>
+          <div class="month-title" id="monthTitle"></div>
+          <button type="button" class="secondary-button small-button" id="nextMonth">Next</button>
+        </div>
+
+        <div class="calendar-buttons">
+          <button type="button" class="secondary-button small-button" id="todayButton">Go to Today</button>
+        </div>
+
+        <div class="calendar-grid" id="calendarGrid" aria-label="Monthly calendar"></div>
+
+        <div class="selected-date-box">
+          <div class="section-title-row">
+            <h3 id="selectedDateTitle">Selected Date</h3>
+          </div>
+          <ul id="selectedEventsList"></ul>
+          <p class="empty-message" id="emptySelectedMessage">No classes or exams on this day.</p>
+        </div>
+
+        <div class="upcoming-box">
+          <div class="section-title-row">
+            <h3>Upcoming Classes and Exams</h3>
+          </div>
+          <ul id="upcomingEventsList"></ul>
+          <p class="empty-message" id="emptyUpcomingMessage">No upcoming classes or exams yet.</p>
+        </div>
+      </section>
+    </div>
   </main>
 
   <script>
-    // Get the important parts of the page
     const taskForm = document.getElementById("taskForm");
     const taskInput = document.getElementById("taskInput");
     const taskList = document.getElementById("taskList");
-    const emptyMessage = document.getElementById("emptyMessage");
+    const emptyTaskMessage = document.getElementById("emptyTaskMessage");
 
-    // This is the name we use to save tasks in the browser
-    const STORAGE_KEY = "myTodoListTasks";
+    const eventForm = document.getElementById("eventForm");
+    const eventTitle = document.getElementById("eventTitle");
+    const eventType = document.getElementById("eventType");
+    const eventTime = document.getElementById("eventTime");
+    const eventDate = document.getElementById("eventDate");
+    const eventStatus = document.getElementById("eventStatus");
+    const calendarGrid = document.getElementById("calendarGrid");
+    const monthTitle = document.getElementById("monthTitle");
+    const prevMonth = document.getElementById("prevMonth");
+    const nextMonth = document.getElementById("nextMonth");
+    const todayButton = document.getElementById("todayButton");
+    const selectedDateTitle = document.getElementById("selectedDateTitle");
+    const selectedEventsList = document.getElementById("selectedEventsList");
+    const emptySelectedMessage = document.getElementById("emptySelectedMessage");
+    const upcomingEventsList = document.getElementById("upcomingEventsList");
+    const emptyUpcomingMessage = document.getElementById("emptyUpcomingMessage");
 
-    // This array stores all unfinished tasks
+    const TASK_STORAGE_KEY = "myTodoListTasks";
+    const EVENT_STORAGE_KEY = "myCalendarEvents";
+
     let tasks = [];
+    let calendarEvents = [];
+    let currentMonth = new Date();
+    let selectedDateKey = getDateKey(new Date());
 
-    // Save the current tasks into the browser's local storage
-    function saveTasks() {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
+    function getDateKey(date) {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
     }
 
-    // Load saved tasks from the browser's local storage
+    function dateFromKey(dateKey) {
+      const parts = dateKey.split("-").map(Number);
+      return new Date(parts[0], parts[1] - 1, parts[2]);
+    }
+
+    function makeId() {
+      return Date.now().toString() + Math.random().toString(16).slice(2);
+    }
+
+    function formatDateForPeople(dateKey) {
+      const date = dateFromKey(dateKey);
+      return date.toLocaleDateString(undefined, {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+      });
+    }
+
+    function formatMonthTitle(date) {
+      return date.toLocaleDateString(undefined, {
+        month: "long",
+        year: "numeric"
+      });
+    }
+
+    function saveTasks() {
+      localStorage.setItem(TASK_STORAGE_KEY, JSON.stringify(tasks));
+    }
+
     function loadTasks() {
-      const savedTasks = localStorage.getItem(STORAGE_KEY);
+      const savedTasks = localStorage.getItem(TASK_STORAGE_KEY);
 
       if (savedTasks) {
         tasks = JSON.parse(savedTasks);
       }
     }
 
-    // This function checks whether to show the empty message
-    function updateEmptyMessage() {
-      if (tasks.length === 0) {
-        emptyMessage.style.display = "block";
-      } else {
-        emptyMessage.style.display = "none";
+    function saveEvents() {
+      localStorage.setItem(EVENT_STORAGE_KEY, JSON.stringify(calendarEvents));
+    }
+
+    function loadEvents() {
+      const savedEvents = localStorage.getItem(EVENT_STORAGE_KEY);
+
+      if (savedEvents) {
+        calendarEvents = JSON.parse(savedEvents);
       }
     }
 
-    // Draw all tasks on the screen
     function renderTasks() {
-      // Clear the current list before redrawing it
       taskList.innerHTML = "";
 
-      // Create a list item for each saved task
       tasks.forEach(function (task) {
         const listItem = document.createElement("li");
+        listItem.className = "task-item";
 
         const checkbox = document.createElement("input");
         checkbox.type = "checkbox";
@@ -202,9 +584,9 @@
         checkbox.setAttribute("aria-label", "Mark task as complete");
 
         const text = document.createElement("span");
+        text.className = "task-text";
         text.textContent = task.text;
 
-        // When the checkbox is clicked, remove the task and save the new list
         checkbox.addEventListener("change", function () {
           tasks = tasks.filter(function (currentTask) {
             return currentTask.id !== task.id;
@@ -219,30 +601,212 @@
         taskList.appendChild(listItem);
       });
 
-      updateEmptyMessage();
+      emptyTaskMessage.style.display = tasks.length === 0 ? "block" : "none";
     }
 
-    // This function creates a new task and saves it
     function addTask(taskText) {
-      const newTask = {
-        id: Date.now(),
+      tasks.push({
+        id: makeId(),
         text: taskText
-      };
+      });
 
-      tasks.push(newTask);
       saveTasks();
       renderTasks();
     }
 
-    // When the form is submitted, add the task
+    function sortEvents(firstEvent, secondEvent) {
+      const firstTime = firstEvent.time || "99:99";
+      const secondTime = secondEvent.time || "99:99";
+      return (firstEvent.date + firstTime).localeCompare(secondEvent.date + secondTime);
+    }
+
+    function getEventsForDate(dateKey) {
+      return calendarEvents
+        .filter(function (calendarEvent) {
+          return calendarEvent.date === dateKey;
+        })
+        .sort(sortEvents);
+    }
+
+    function createEventItem(calendarEvent, showDate) {
+      const listItem = document.createElement("li");
+      listItem.className = "event-item";
+
+      const textBox = document.createElement("span");
+      textBox.className = "event-text";
+
+      const badge = document.createElement("span");
+      badge.className = calendarEvent.type === "exam" ? "badge exam-badge" : "badge class-badge";
+      badge.textContent = calendarEvent.type === "exam" ? "Exam" : "Class";
+
+      const title = document.createElement("strong");
+      title.textContent = calendarEvent.title;
+
+      const details = document.createElement("span");
+      details.className = "event-details";
+
+      let detailText = "";
+      if (showDate) {
+        detailText += formatDateForPeople(calendarEvent.date);
+      }
+      if (calendarEvent.time) {
+        detailText += showDate ? ` at ${calendarEvent.time}` : `Time: ${calendarEvent.time}`;
+      }
+      if (!detailText) {
+        detailText = "No time added";
+      }
+      details.textContent = detailText;
+
+      const deleteButton = document.createElement("button");
+      deleteButton.type = "button";
+      deleteButton.className = "delete-button small-button";
+      deleteButton.textContent = "Delete";
+      deleteButton.setAttribute("aria-label", `Delete ${calendarEvent.title}`);
+
+      deleteButton.addEventListener("click", function () {
+        calendarEvents = calendarEvents.filter(function (currentEvent) {
+          return currentEvent.id !== calendarEvent.id;
+        });
+
+        saveEvents();
+        renderCalendar();
+      });
+
+      textBox.appendChild(badge);
+      textBox.appendChild(title);
+      textBox.appendChild(details);
+
+      listItem.appendChild(textBox);
+      listItem.appendChild(deleteButton);
+
+      return listItem;
+    }
+
+    function renderSelectedDateEvents() {
+      const selectedEvents = getEventsForDate(selectedDateKey);
+      selectedDateTitle.textContent = formatDateForPeople(selectedDateKey);
+      selectedEventsList.innerHTML = "";
+
+      selectedEvents.forEach(function (calendarEvent) {
+        selectedEventsList.appendChild(createEventItem(calendarEvent, false));
+      });
+
+      emptySelectedMessage.style.display = selectedEvents.length === 0 ? "block" : "none";
+    }
+
+    function renderUpcomingEvents() {
+      const todayKey = getDateKey(new Date());
+      const upcomingEvents = calendarEvents
+        .filter(function (calendarEvent) {
+          return calendarEvent.date >= todayKey;
+        })
+        .sort(sortEvents)
+        .slice(0, 8);
+
+      upcomingEventsList.innerHTML = "";
+
+      upcomingEvents.forEach(function (calendarEvent) {
+        upcomingEventsList.appendChild(createEventItem(calendarEvent, true));
+      });
+
+      emptyUpcomingMessage.style.display = upcomingEvents.length === 0 ? "block" : "none";
+    }
+
+    function renderCalendar() {
+      calendarGrid.innerHTML = "";
+
+      const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+      dayNames.forEach(function (dayName) {
+        const dayNameBox = document.createElement("div");
+        dayNameBox.className = "day-name";
+        dayNameBox.textContent = dayName;
+        calendarGrid.appendChild(dayNameBox);
+      });
+
+      const year = currentMonth.getFullYear();
+      const month = currentMonth.getMonth();
+      const firstDayOfMonth = new Date(year, month, 1);
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      const startingDay = firstDayOfMonth.getDay();
+      const todayKey = getDateKey(new Date());
+
+      monthTitle.textContent = formatMonthTitle(currentMonth);
+
+      for (let blank = 0; blank < startingDay; blank++) {
+        const blankCell = document.createElement("div");
+        blankCell.setAttribute("aria-hidden", "true");
+        calendarGrid.appendChild(blankCell);
+      }
+
+      for (let day = 1; day <= daysInMonth; day++) {
+        const thisDate = new Date(year, month, day);
+        const thisDateKey = getDateKey(thisDate);
+        const eventsOnThisDay = getEventsForDate(thisDateKey);
+
+        const dayCell = document.createElement("button");
+        dayCell.type = "button";
+        dayCell.className = "day-cell";
+
+        if (thisDateKey === selectedDateKey) {
+          dayCell.classList.add("selected");
+        }
+
+        if (thisDateKey === todayKey) {
+          dayCell.classList.add("today");
+        }
+
+        dayCell.setAttribute("aria-label", `Select ${formatDateForPeople(thisDateKey)}`);
+
+        const dayNumber = document.createElement("span");
+        dayNumber.className = "day-number";
+        dayNumber.textContent = day;
+
+        const dayEvents = document.createElement("span");
+        dayEvents.className = "day-events";
+
+        const classCount = eventsOnThisDay.filter(function (calendarEvent) {
+          return calendarEvent.type === "class";
+        }).length;
+
+        const examCount = eventsOnThisDay.filter(function (calendarEvent) {
+          return calendarEvent.type === "exam";
+        }).length;
+
+        if (classCount > 0) {
+          const classDot = document.createElement("span");
+          classDot.className = "event-dot class-dot";
+          classDot.textContent = `${classCount} class`;
+          dayEvents.appendChild(classDot);
+        }
+
+        if (examCount > 0) {
+          const examDot = document.createElement("span");
+          examDot.className = "event-dot exam-dot";
+          examDot.textContent = `${examCount} exam`;
+          dayEvents.appendChild(examDot);
+        }
+
+        dayCell.appendChild(dayNumber);
+        dayCell.appendChild(dayEvents);
+
+        dayCell.addEventListener("click", function () {
+          selectedDateKey = thisDateKey;
+          eventDate.value = selectedDateKey;
+          renderCalendar();
+        });
+
+        calendarGrid.appendChild(dayCell);
+      }
+
+      renderSelectedDateEvents();
+      renderUpcomingEvents();
+    }
+
     taskForm.addEventListener("submit", function (event) {
-      // Stop the page from refreshing
       event.preventDefault();
 
-      // Get the text from the input box and remove extra spaces
       const taskText = taskInput.value.trim();
 
-      // Only add the task if the user typed something
       if (taskText !== "") {
         addTask(taskText);
         taskInput.value = "";
@@ -250,10 +814,68 @@
       }
     });
 
-    // Load saved tasks first, then show them on the screen
+    eventForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+      eventStatus.textContent = "";
+
+      const title = eventTitle.value.trim();
+      const type = eventType.value;
+      const time = eventTime.value;
+      const date = eventDate.value;
+
+      if (title === "") {
+        eventStatus.textContent = "Please type the class or exam name.";
+        eventTitle.focus();
+        return;
+      }
+
+      if (date === "") {
+        eventStatus.textContent = "Please choose a date.";
+        eventDate.focus();
+        return;
+      }
+
+      calendarEvents.push({
+        id: makeId(),
+        title: title,
+        type: type,
+        time: time,
+        date: date
+      });
+
+      selectedDateKey = date;
+      currentMonth = dateFromKey(date);
+      saveEvents();
+      renderCalendar();
+
+      eventTitle.value = "";
+      eventTime.value = "";
+      eventTitle.focus();
+    });
+
+    prevMonth.addEventListener("click", function () {
+      currentMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1);
+      renderCalendar();
+    });
+
+    nextMonth.addEventListener("click", function () {
+      currentMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1);
+      renderCalendar();
+    });
+
+    todayButton.addEventListener("click", function () {
+      const today = new Date();
+      selectedDateKey = getDateKey(today);
+      currentMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+      eventDate.value = selectedDateKey;
+      renderCalendar();
+    });
+
     loadTasks();
+    loadEvents();
+    eventDate.value = selectedDateKey;
     renderTasks();
+    renderCalendar();
   </script>
 </body>
 </html>
-
